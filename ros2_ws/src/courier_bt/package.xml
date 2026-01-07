@@ -5,7 +5,8 @@
   <description>Behavior Tree for Courier Robot</description>
   <maintainer email="you@example.com">You</maintainer>
   <license>Apache-2.0</license>
-  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <buildtool_depend>ament_python</buildtool_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>py_trees</exec_depend>
 </package>

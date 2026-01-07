@@ -14,7 +14,7 @@ setup(
     license='Apache-2.0',
     entry_points={
         'console_scripts': [
-            'bfs_node = courier_bfs_planner.bfs_node:main',  # calls main() in bfs_node.py
+            'bfs_node = courier_bfs_planner.bfs_node:main',
         ],
     },
 )

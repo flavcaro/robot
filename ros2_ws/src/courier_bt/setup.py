@@ -6,7 +6,7 @@ setup(
     name=package_name,
     version='0.0.1',
     packages=[package_name],
-    install_requires=['setuptools', 'py_trees'],
+    install_requires=['setuptools', 'rclpy', 'py_trees'],
     zip_safe=True,
     maintainer='You',
     maintainer_email='you@example.com',
@@ -14,7 +14,7 @@ setup(
     license='Apache-2.0',
     entry_points={
         'console_scripts': [
-            'courier_bt_node = courier_bt.courier_bt_node:main',  # your Python main function
+            'courier_bt_node = courier_bt.courier_bt_node:main',
         ],
     },
 )

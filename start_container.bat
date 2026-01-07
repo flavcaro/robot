@@ -6,7 +6,7 @@ echo.
 echo Container will be available at: http://localhost:6080
 echo.
 
-docker image inspect robot:nav2 >nul 2>&1
+docker image inspect courier-robot:nav2 >nul 2>&1
 if errorlevel 1 (
     echo [WARNING] Image not found! Build first.
     pause
@@ -17,5 +17,5 @@ docker run -it --rm ^
     -p 6080:80 ^
     --gpus all ^
     -v "%cd%\ros2_ws:/home/ubuntu/ros2_ws" ^
-    --name robot ^
-    robot:nav2
+    --name courier_robot ^
+    courier-robot:nav2

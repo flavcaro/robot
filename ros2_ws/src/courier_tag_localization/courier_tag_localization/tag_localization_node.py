@@ -4,10 +4,14 @@ from rclpy.node import Node
 class TagLocalizationNode(Node):
     def __init__(self):
         super().__init__('tag_localization_node')
-        # Initialize your subscribers, publishers, and tag detection
+        self.get_logger().info("Tag Localization Node started")
+        # Initialize AprilTag detection here
 
 def main():
     rclpy.init()
     node = TagLocalizationNode()
-    rclpy.spin(node)
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
     rclpy.shutdown()
