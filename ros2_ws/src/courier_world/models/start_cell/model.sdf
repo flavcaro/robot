@@ -1,0 +1,13 @@
+<sdf version="1.8">
+  <model name="start_cell">
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+      <visual name="vis">
+        <geometry>
+          <box><size>1 1 0.01</size></box>
+        </geometry>
+        <material><ambient>0 1 0 1</ambient></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

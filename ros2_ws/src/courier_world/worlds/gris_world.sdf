@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="courier_grid_world">
+
+    <!-- Ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Light -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Grid visual: optional -->
+    <model name="grid_visual">
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box><size>10 10 0.01</size></box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Start cell (green) -->
+    <include>
+      <uri>model://start_cell</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Goal cell (blue) -->
+    <include>
+      <uri>model://goal_cell</uri>
+      <pose>4 4 0 0 0 0</pose>
+    </include>
+
+    <!-- AprilTag placeholder -->
+    <include>
+      <uri>model://apriltag</uri>
+      <pose>2 2 0 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

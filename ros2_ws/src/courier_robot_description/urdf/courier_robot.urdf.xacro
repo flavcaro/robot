@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot name="courier_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.5 0.3 0.2"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.7 0.7 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.5 0.3 0.2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <!-- LiDAR -->
+  <link name="laser_link"/>
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_link"/>
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+  </joint>
+
+  <sensor name="laser" type="ray">
+    <pose>0 0 0 0 0 0</pose>
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>360</samples>
+          <resolution>1</resolution>
+          <min_angle>-3.14159</min_angle>
+          <max_angle>3.14159</max_angle>
+        </horizontal>
+        <vertical>
+          <samples>1</samples>
+          <min_angle>0</min_angle>
+          <max_angle>0</max_angle>
+        </vertical>
+      </scan>
+      <range>
+        <min>0.1</min>
+        <max>10.0</max>
+      </range>
+    </ray>
+    <plugin name="gazebo_ros_laser" filename="libgazebo_ros_ray_sensor.so">
+      <topicName>/scan</topicName>
+    </plugin>
+  </sensor>
+
+  <!-- Differential drive plugin -->
+  <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+    <ros>
+      <namespace>/</namespace>
+      <remapping>
+        <remap from="cmd_vel" to="cmd_vel"/>
+      </remapping>
+    </ros>
+    <updateRate>100</updateRate>
+  </plugin>
+
+</robot>
