@@ -11,6 +11,9 @@ echo
 # Navigate to workspace
 cd ~/ros2_ws || { echo "[ERROR] ~/ros2_ws not found!"; exit 1; }
 
+# Set Gazebo model path
+export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$(pwd)/src/courier_robot_description/models
+
 # Check Python dependencies
 echo "📦 Checking Python dependencies..."
 for pkg in py_trees cv2; do
@@ -72,29 +75,26 @@ if [ $FAILED -eq 1 ]; then
 fi
 echo "✅ All packages verified!"
 
-# Launch Gazebo simulation
-WORLD_FILE="src/courier_world/worlds/grid_world.sdf"
+# Launch Gazebo with world (robot included)
+WORLD_FILE="$(pwd)/src/courier_world/worlds/grid_world.sdf"
 if [ ! -f "$WORLD_FILE" ]; then
     echo "❌ World file not found: $WORLD_FILE"
     exit 1
 fi
 
 echo "🌍 Launching Gazebo with world: $WORLD_FILE"
-ros2 launch ros_gz_sim gz_sim.launch.py world:="$WORLD_FILE" &
+echo "🧱 World includes: walls, green start cell, blue goal cell, obstacles, and robot"
+ros2 launch ros_gz_sim gz_sim.launch.py gz_args:="$WORLD_FILE" &
 GAZEBO_PID=$!
 
 # Wait for Gazebo to start
 echo "⏳ Waiting for Gazebo..."
-sleep 5
+sleep 8
 until ros2 topic list 2>/dev/null | grep -q "/clock"; do
     sleep 1
     echo "  Still waiting for Gazebo..."
 done
-echo "✅ Gazebo running"
-
-# Spawn robot into simulation
-echo "🤖 Spawning robot..."
-ros2 run ros_gz_sim create -world default -file "$SDF_FILE" -name courier_robot -x 0 -y 0 -z 0.1
+echo "✅ Gazebo running with robot spawned!"
 
 # Launch Navigation2
 echo "🚀 Launching Navigation2..."
@@ -114,6 +114,21 @@ echo "🌲 Launching Behavior Tree..."
 ros2 run courier_bt courier_bt_node &
 BT_PID=$!
 
+echo ""
+echo "✅ All systems launched!"
+echo "📍 Robot starts at GREEN cell (0,0)"
+echo "🎯 Goal is BLUE cell (5,5)"
+echo "🚧 Obstacles block the direct path"
+echo "🧱 Walls surround the 6x6 grid"
+echo ""
+echo "Mission Flow:"
+echo "  1. BFS planner calculates path avoiding obstacles"
+echo "  2. Behavior tree waits for path"
+echo "  3. Robot navigates to goal (blue cell)"
+echo "  4. Robot grabs package"
+echo "  5. Robot returns to start (green cell)"
+echo ""
+echo "Press Ctrl+C to stop all nodes"
+
 # Wait for all nodes
-echo "✅ All nodes launched. Press Ctrl+C to stop."
 wait $GAZEBO_PID $NAV2_PID $BFS_PID $BT_PID
