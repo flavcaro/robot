@@ -5,17 +5,24 @@ echo ============================================
 echo.
 echo Container will be available at: http://localhost:6080
 echo.
-
-docker image inspect courier-robot:nav2 >nul 2>&1
+REM Prefer image with apriltags preinstalled if available
+docker image inspect robot:nav2-apriltags >nul 2>&1
 if errorlevel 1 (
-    echo [WARNING] Image not found! Build first.
-    pause
-    exit /b 1
+    docker image inspect robot:nav2 >nul 2>&1
+    if errorlevel 1 (
+        echo [WARNING] Image not found! Build first.
+        pause
+        exit /b 1
+    ) else (
+        set IMAGE=robot:nav2
+    )
+) else (
+    set IMAGE=robot:nav2-apriltags
 )
 
 docker run -it --rm ^
     -p 6080:80 ^
     --gpus all ^
     -v "%cd%\ros2_ws:/home/ubuntu/ros2_ws" ^
-    --name courier_robot ^
-    courier-robot:nav2
+    --name robot ^
+    %IMAGE%

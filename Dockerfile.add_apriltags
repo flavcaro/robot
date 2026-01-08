@@ -1,0 +1,21 @@
+# Dockerfile.add_apriltags
+# Build an image on top of your existing container image (robot:nav2 or courier-robot:nav2)
+# that pre-installs AprilTag-related Python packages so the start script won't install them at runtime.
+
+FROM robot:nav2
+
+USER root
+
+# Install minimal system deps and Python packages
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        python3-pip \
+        libgl1 \
+        libglib2.0-0 \
+    && pip3 install --no-cache-dir "numpy>=1.21.6,<1.28.0" py_trees dt-apriltags opencv-python opencv-python-headless \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/ubuntu/ros2_ws
+
+USER ubuntu

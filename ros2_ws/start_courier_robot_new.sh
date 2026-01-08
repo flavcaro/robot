@@ -20,25 +20,35 @@ export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:$(pwd)/src/courier_robot_descr
 
 # Check Python dependencies
 echo "📦 Checking Python dependencies..."
-for pkg in py_trees cv2 dt_apriltags; do
-    python3 -c "import $pkg" 2>/dev/null || {
-        echo "⚠️  $pkg not found. Installing..."
-        case "$pkg" in
-            cv2)
-                pip install --break-system-packages "numpy>=1.21.6,<1.28.0" opencv-python
-                ;;
-            dt_apriltags)
-                pip install --break-system-packages dt-apriltags
-                ;;
-            *)
-                pip install --break-system-packages "$pkg>=2.2.0"
-                ;;
-        esac
-    }
-done
+# When running inside the prepared Docker image we already preinstalled packages.
+# Detect container by /.dockerenv or explicit env var `SKIP_APRILTAG_INSTALL`.
+if [ -n "$SKIP_APRILTAG_INSTALL" ] || [ -f "/.dockerenv" ]; then
+    echo "ℹ️  Skipping Python install checks (packages expected preinstalled in image)"
+else
+    for pkg in py_trees cv2 dt_apriltags; do
+        python3 -c "import $pkg" 2>/dev/null || {
+            echo "⚠️  $pkg not found. Installing..."
+            case "$pkg" in
+                cv2)
+                    pip install --break-system-packages "numpy>=1.21.6,<1.28.0" opencv-python
+                    ;;
+                dt_apriltags)
+                    pip install --break-system-packages dt-apriltags
+                    ;;
+                *)
+                    pip install --break-system-packages "$pkg>=2.2.0"
+                    ;;
+            esac
+        }
+    done
+fi
 
-# Install cv_bridge dependencies
-pip install --break-system-packages opencv-python-headless 2>/dev/null || true
+# Install cv_bridge dependencies (skip if preinstalled in image)
+if [ -z "$SKIP_APRILTAG_INSTALL" ] && [ ! -f "/.dockerenv" ]; then
+    pip install --break-system-packages opencv-python-headless 2>/dev/null || true
+else
+    echo "ℹ️  Skipping cv_bridge dependency install (preinstalled in image)"
+fi
 
 # Generate SDF from URDF
 URDF_FILE="src/courier_robot_description/urdf/courier_robot.urdf.xacro"
