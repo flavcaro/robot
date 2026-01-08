@@ -57,28 +57,28 @@
       </link>
     </model>
 
-    <!-- Room Walls (6x6 grid boundaries) -->
+    <!-- Room Walls (6x6 grid boundaries) - Much lower: 0.3m height -->
     <!-- North Wall -->
     <model name="wall_north">
       <static>true</static>
-      <pose>3 6 0.5 0 0 0</pose>
+      <pose>3 6 0.15 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>6.0 0.2 1.0</size>
+              <size>6.0 0.2 0.3</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>6.0 0.2 1.0</size>
+              <size>6.0 0.2 0.3</size>
             </box>
           </geometry>
           <material>
-            <ambient>0.5 0.5 0.5 1</ambient>
-            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
           </material>
         </visual>
       </link>
@@ -87,24 +87,24 @@
     <!-- South Wall -->
     <model name="wall_south">
       <static>true</static>
-      <pose>3 -0.1 0.5 0 0 0</pose>
+      <pose>3 -0.1 0.15 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>6.0 0.2 1.0</size>
+              <size>6.0 0.2 0.3</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>6.0 0.2 1.0</size>
+              <size>6.0 0.2 0.3</size>
             </box>
           </geometry>
           <material>
-            <ambient>0.5 0.5 0.5 1</ambient>
-            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
           </material>
         </visual>
       </link>
@@ -113,24 +113,24 @@
     <!-- East Wall -->
     <model name="wall_east">
       <static>true</static>
-      <pose>6 3 0.5 0 0 0</pose>
+      <pose>6 3 0.15 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.2 6.0 1.0</size>
+              <size>0.2 6.0 0.3</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.2 6.0 1.0</size>
+              <size>0.2 6.0 0.3</size>
             </box>
           </geometry>
           <material>
-            <ambient>0.5 0.5 0.5 1</ambient>
-            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
           </material>
         </visual>
       </link>
@@ -139,24 +139,24 @@
     <!-- West Wall -->
     <model name="wall_west">
       <static>true</static>
-      <pose>-0.1 3 0.5 0 0 0</pose>
+      <pose>-0.1 3 0.15 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.2 6.0 1.0</size>
+              <size>0.2 6.0 0.3</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.2 6.0 1.0</size>
+              <size>0.2 6.0 0.3</size>
             </box>
           </geometry>
           <material>
-            <ambient>0.5 0.5 0.5 1</ambient>
-            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.4 0.4 0.4 1</diffuse>
           </material>
         </visual>
       </link>
@@ -181,6 +181,13 @@
       </link>
     </model>
 
+    <!-- AprilTag 0 at START - On west wall at camera height -->
+    <include>
+      <uri>model://apriltag_0</uri>
+      <name>apriltag_start</name>
+      <pose>0.05 0.5 0.25 0 0 1.5708</pose>
+    </include>
+
     <!-- Blue GOAL Cell (5, 5) -->
     <model name="goal_cell">
       <static>true</static>
@@ -200,23 +207,30 @@
       </link>
     </model>
 
-    <!-- Obstacles -->
-    <!-- Obstacle 1 at (2, 1) -->
+    <!-- AprilTag 1 at GOAL - On north wall at camera height -->
+    <include>
+      <uri>model://apriltag_1</uri>
+      <name>apriltag_goal</name>
+      <pose>5.5 5.95 0.25 0 0 -1.5708</pose>
+    </include>
+
+    <!-- Obstacles (lower height: 0.5m) -->
+    <!-- Obstacle 1 at (2, 1) with AprilTag 2 -->
     <model name="obstacle_1">
       <static>true</static>
-      <pose>2.5 1.5 0.4 0 0 0</pose>
+      <pose>2.5 1.5 0.25 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
           <material>
@@ -227,27 +241,77 @@
       </link>
     </model>
 
-    <!-- Obstacle 2 at (3, 3) -->
+    <!-- AprilTag on Obstacle 1 (Tag 2) -->
+    <model name="apriltag_obs1">
+      <static>true</static>
+      <pose>2.9 1.5 0.25 0 0 1.5708</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.001</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <pbr>
+              <metal>
+                <albedo_map>model://apriltag_0/tag.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle 2 at (3, 3) with AprilTag 3 -->
     <model name="obstacle_2">
       <static>true</static>
-      <pose>3.5 3.5 0.4 0 0 0</pose>
+      <pose>3.5 3.5 0.25 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
           <material>
             <ambient>0.7 0.2 0.2 1</ambient>
             <diffuse>0.5 0.1 0.1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- AprilTag on Obstacle 2 (Tag 3) -->
+    <model name="apriltag_obs2">
+      <static>true</static>
+      <pose>3.9 3.5 0.25 0 0 1.5708</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.001</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 1 1 1</ambient>
+            <diffuse>1 1 1 1</diffuse>
+            <specular>0 0 0 1</specular>
+            <pbr>
+              <metal>
+                <albedo_map>model://apriltag_1/tag.png</albedo_map>
+              </metal>
+            </pbr>
           </material>
         </visual>
       </link>
@@ -256,19 +320,19 @@
     <!-- Obstacle 3 at (1, 3) -->
     <model name="obstacle_3">
       <static>true</static>
-      <pose>1.5 3.5 0.4 0 0 0</pose>
+      <pose>1.5 3.5 0.25 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
           <material>
@@ -282,19 +346,19 @@
     <!-- Obstacle 4 at (4, 2) -->
     <model name="obstacle_4">
       <static>true</static>
-      <pose>4.5 2.5 0.4 0 0 0</pose>
+      <pose>4.5 2.5 0.25 0 0 0</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
             <box>
-              <size>0.8 0.8 0.8</size>
+              <size>0.8 0.8 0.5</size>
             </box>
           </geometry>
           <material>
